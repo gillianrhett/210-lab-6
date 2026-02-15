@@ -1,13 +1,14 @@
 // COMSC-210 | Lab 6 | Gillian Rhett
 #include <iostream>
 #include <iomanip>
+#include <stdexcept>
 using namespace std;
 
 void enterArrayData(double*);
 void outputArrayData(double*);
 double sumArray(double*);
 
-const int arrSize = 5;
+const int arrSize = 3;
 
 main() {
     double* myArr = new double[arrSize];
@@ -24,11 +25,19 @@ void enterArrayData(double* arr){
 // takes a pointer to an array of doubles
 //  and appends values entered by user
     cout << "Data entry for the array:" << endl;
-    double input = 0.0;
+    bool validInput;
     for (int i = 0; i < arrSize; ++i) {
         cout << " > Element #" << i + 1 << ": ";
-        cin >> *(arr + i);
-        // TODO input validation
+        validInput = false;
+        while (!validInput) {
+            try { 
+                cin >> *(arr + i); 
+                validInput = true;
+            }
+            catch(invalid_argument &e) { 
+                cout << "Enter a valid double: " << endl;
+            }
+        }
     }    
     cout << "Data entry complete." << endl;
 }
