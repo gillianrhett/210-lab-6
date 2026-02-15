@@ -1,5 +1,6 @@
 // COMSC-210 | Lab 6 | Gillian Rhett
 #include <iostream>
+#include <iomanip>
 using namespace std;
 
 void enterArrayData(double*);
@@ -12,6 +13,8 @@ main() {
     double* myArr = new double[arrSize];
     
     enterArrayData(myArr);
+    outputArrayData(myArr);
+    cout << "Sum of values: " << fixed << setprecision(1) << sumArray(myArr);
 
     delete myArr;
     myArr = nullptr;
@@ -20,28 +23,32 @@ main() {
 void enterArrayData(double* arr){
 // takes a pointer to an array of doubles
 //  and appends values entered by user
-
     cout << "Data entry for the array:" << endl;
     double input = 0.0;
     for (int i = 0; i < arrSize; ++i) {
         cout << " > Element #" << i + 1 << ": ";
         cin >> *(arr + i);
-    }
-    
-    cout << "\nData entry complete." << endl;
+        // TODO input validation
+    }    
+    cout << "Data entry complete." << endl;
 }
 
 void outputArrayData(double* arr) {
 // takes a pointer to an array of doubles
 //  and displays the elements
-    
+    cout << "Outputting array elements: ";
+    for (int i = 0; i < arrSize; ++i) {
+        cout << fixed << setprecision(1) << *(arr + i) << " ";
+    }
+    cout << endl;
 }
 
 double sumArray(double* arr) {
 // takes a pointer to an array of doubles
 //  and adds them all and returns the sum
-
     double sum = 0;
-
+    for (int i = 0; i < arrSize; ++i) {
+        sum += *(arr + i);
+    }
     return sum;
 }
