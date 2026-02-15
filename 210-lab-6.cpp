@@ -14,7 +14,7 @@ const int arrSize = 5;
 
 main() {
     double* myArr = new double[arrSize];
-    
+
     enterArrayData(myArr);
     outputArrayData(myArr);
     cout << "Sum of values: " << fixed << setprecision(1) << sumArray(myArr);
@@ -27,27 +27,29 @@ void enterArrayData(double* arr){
 // takes a pointer to an array of doubles
 //  and appends values entered by user
     cout << "Data entry for the array:" << endl;
-    bool validInput;
     double input;
+    bool validInput = false;
+
     for (int i = 0; i < arrSize; ++i) {
-        cout << " > Element #" << i + 1 << ": ";
-        validInput = false;
         while (!validInput) {
-            try { 
+            // TODO fix it so this doesn't break out of the for loop
+            try {
+                cout << "  > Element #" << i + 1 << ": ";
                 cin >> input;
-                if (cin.fail())
-                    throw string("Enter a valid double: "); 
-                else
-                    validInput = true;
+                if (cin.fail()) {
+                    throw;
+                }
+                // input was valid so save this value in the array
+                validInput = true;
+                *(arr + i) = input;
             }
-            catch(string error) { 
-                cout << error << endl;
+            catch (invalid_argument &e) {
+                cout << "Error: input needs to be a double." << endl;
                 cin.clear();
-                cin.ignore(numeric_limits<streamsize>::max());
+                cin.ignore(numeric_limits<streamsize>::max(), '\n');
             }
         }
-        *(arr + i) = input;
-    }    
+    }
     cout << "Data entry complete." << endl;
 }
 
