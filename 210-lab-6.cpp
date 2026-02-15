@@ -4,31 +4,34 @@
 #include <limits> // for clearing input after error
 using namespace std;
 
-void enterArrayData(double*);
-void outputArrayData(double*);
-double sumArray(double*);
+void enterArrayData(double*, int);
+void outputArrayData(double*, int);
+double sumArray(double*, int);
+// Each function takes a pointer to an array of doubles,
+//  and the size of the array as an integer.
+//  This makes functions more reusable than using const arrSize inside them.
 
 const int arrSize = 5;
 
 main() {
     double* myArr = new double[arrSize];
 
-    enterArrayData(myArr);
-    outputArrayData(myArr);
-    cout << "Sum of values: " << sumArray(myArr);
+    enterArrayData(myArr, arrSize);
+    outputArrayData(myArr, arrSize);
+    cout << "Sum of values: " << sumArray(myArr, arrSize);
 
     delete myArr;
     myArr = nullptr;
 }
 
-void enterArrayData(double* arr){
+void enterArrayData(double* arr, int size){
 // takes a pointer to an array of doubles
 //  and appends values entered by user
     cout << "Data entry for the array:" << endl;
     double input;
     bool validInput = false;
 
-    for (int i = 0; i < arrSize; ++i) {
+    for (int i = 0; i < size; ++i) {
         validInput = false; // needs to be reset for each iteration
         while (!validInput) {
             cout << "  > Element #" << i + 1 << ": ";
@@ -51,21 +54,21 @@ void enterArrayData(double* arr){
     cout << "Data entry complete." << endl;
 }
 
-void outputArrayData(double* arr) {
+void outputArrayData(double* arr, int size) {
 // takes a pointer to an array of doubles
 //  and displays the elements
     cout << "Outputting array elements: ";
-    for (int i = 0; i < arrSize; ++i) {
+    for (int i = 0; i < size; ++i) {
         cout << *(arr + i) << " ";
     }
     cout << endl;
 }
 
-double sumArray(double* arr) {
+double sumArray(double* arr, int size) {
 // takes a pointer to an array of doubles
 //  and adds them all and returns the sum
     double sum = 0;
-    for (int i = 0; i < arrSize; ++i) {
+    for (int i = 0; i < size; ++i) {
         sum += *(arr + i);
     }
     return sum;
