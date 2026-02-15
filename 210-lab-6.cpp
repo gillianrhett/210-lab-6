@@ -2,13 +2,15 @@
 #include <iostream>
 #include <iomanip>
 #include <stdexcept>
+#include <string>
+#include <limits>
 using namespace std;
 
 void enterArrayData(double*);
 void outputArrayData(double*);
 double sumArray(double*);
 
-const int arrSize = 3;
+const int arrSize = 5;
 
 main() {
     double* myArr = new double[arrSize];
@@ -26,18 +28,25 @@ void enterArrayData(double* arr){
 //  and appends values entered by user
     cout << "Data entry for the array:" << endl;
     bool validInput;
+    double input;
     for (int i = 0; i < arrSize; ++i) {
         cout << " > Element #" << i + 1 << ": ";
         validInput = false;
         while (!validInput) {
             try { 
-                cin >> *(arr + i); 
-                validInput = true;
+                cin >> input;
+                if (cin.fail())
+                    throw string("Enter a valid double: "); 
+                else
+                    validInput = true;
             }
-            catch(invalid_argument &e) { 
-                cout << "Enter a valid double: " << endl;
+            catch(string error) { 
+                cout << error << endl;
+                cin.clear();
+                cin.ignore(numeric_limits<streamsize>::max());
             }
         }
+        *(arr + i) = input;
     }    
     cout << "Data entry complete." << endl;
 }
